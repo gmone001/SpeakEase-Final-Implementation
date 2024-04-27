@@ -28,6 +28,7 @@ function Title({ setMessages }: Props) {
     setIsResetting(false);
   };
 // Import svg icon from Heroicons for reset button
+
   return (
     <div className="flex justify-between items-center w-full p-4 bg-gray-900 text-white font-bold shadow">
       <div className="italic">SpeakEase</div>
