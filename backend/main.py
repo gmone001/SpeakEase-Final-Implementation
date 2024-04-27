@@ -1,27 +1,27 @@
 # uvicorn main:app --reload
 # uvicorn main:app
 #source venv/bin/activate
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException 
 from fastapi.responses import StreamingResponse
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware 
 from decouple import config
 import openai
 
-# Custom Function Imports
+# custom Function Imports from other files
 from functions.openai_requests import convert_audio_to_text
 from functions.openai_requests import get_chat_response
 from functions.database import store_messages
 from functions.database import reset_messages
 from functions.text_to_speech import convert_text_to_speech
 
-# Get Environment Vars
+# Get .env Variables
 openai.organization = config("OPEN_AI_ORG")
 openai.api_key = config("OPEN_AI_KEY")
 
-# Initialize the app
+#initialize fastAPI
 app = FastAPI()
 
-# CORS origins
+# CORS origins for possible hosts, may have to change for IGOR
 origins = [
     "http://localhost:5173",
     "http://localhost:5174",
@@ -30,7 +30,7 @@ origins = [
     "http://localhost:3000",
 ]
 
-# CORS middleware
+# CORS middleware to allow requests from frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -39,16 +39,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Reset messages
+# reset conversation route 
 @app.get("/reset")
 async def reset_conversation():
     reset_messages()
     return {"message": "conversation reset"}
 
-# Get audio
+# get audio file from frontend and return audio response
 @app.post("/post-audio/")
 async def post_audio(file: UploadFile = File(...)):
-    # # Get saved audio
+
+    # # Get saved audio INITAL TEST to see if openAI and trnascribe works
     # audio_input = open("voice.mp3", "rb")
 
     #save file from frontend
@@ -56,14 +57,14 @@ async def post_audio(file: UploadFile = File(...)):
         buffer.write(file.file.read())
     audio_input = open(file.filename, "rb")
 
-    # Decode Audio
+    # decode audio
     message_decoded = convert_audio_to_text(audio_input)
 
-    # Guard to ensure message decoded
+    #guard to ensure message decoded
     if not message_decoded:
         return HTTPException(status_code=400, detail="FAILED decoding audio")
     
-    # Get chat GPT response
+    # receive chatgtp response
     chat_response = get_chat_response(message_decoded)
 
     print(chat_response)
@@ -72,18 +73,19 @@ async def post_audio(file: UploadFile = File(...)):
     if not chat_response:
         return HTTPException(status_code=400, detail="FAILED to get chat response")
     
-    # Store messages in JSON
+    # store messages in JSON file
     store_messages(message_decoded, chat_response)
 
-    # Convert chat response to audio
+    #convert chat response to audio
     audio_output = convert_text_to_speech(chat_response)
     
     if not audio_output:
         return HTTPException(status_code=400, detail="FAILED to get 11 labs audio output")
     
-    # Create a generator to chunk of data
+    # create a generator to chunk of data
     def iterfile():
+        # read audio output in chunks
         yield audio_output
 
-    # Return audio output
+    # return audio output as a streaming response
     return StreamingResponse(iterfile(), media_type="application/octet-stream")

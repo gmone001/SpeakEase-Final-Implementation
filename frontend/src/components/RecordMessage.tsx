@@ -2,9 +2,10 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import RecordIcon from "./RecordIcon";
 
 type Props = {
+  //function to handle the stop event from recording
   handleStop: any;
 };
-
+// the content here is just to render the record button and display the status of the recording
 const RecordMessage = ({ handleStop }: Props) => {
   return (
     <ReactMediaRecorder

@@ -8,10 +8,10 @@ type Props = {
 function Title({ setMessages }: Props) {
   const [isResetting, setIsResetting] = useState(false);
 
-  // Reset conversation
+  // reset conversation logic
   const resetConversation = async () => {
     setIsResetting(true);
-
+// reset the conversation by sending a GET request to the backend API
     await axios
       .get("http://localhost:8000/reset", {
         headers: {
@@ -27,7 +27,7 @@ function Title({ setMessages }: Props) {
 
     setIsResetting(false);
   };
-
+// Import svg icon from Heroicons for reset button
   return (
     <div className="flex justify-between items-center w-full p-4 bg-gray-900 text-white font-bold shadow">
       <div className="italic">SpeakEase</div>
@@ -37,7 +37,7 @@ function Title({ setMessages }: Props) {
           "transition-all duration-300 text-blue-300 hover:text-pink-500 " +
           (isResetting && "animate-pulse")
         }
-      >
+      > 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

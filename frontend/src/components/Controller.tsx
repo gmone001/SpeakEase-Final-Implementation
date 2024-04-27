@@ -1,26 +1,26 @@
-import { useState } from "react";
+import { useState } from "react"; 
 import Title from "./Title";
 import axios from "axios";
 import RecordMessage from "./RecordMessage";
 
 const Controller = () => {
-  // State to manage loading status
+  //state to manage loading status
   const [isLoading, setIsLoading] = useState(false);
-  //State to store messages
+  //tate to store messages
   const [messages, setMessages] = useState<any[]>([]);
 
   //create a URL for an audio Blob object
   function createBlobURL(data: any) {
-    const blob = new Blob([data], { type: "audio/mpeg" }); // Create a new Blob object
-    const url = window.URL.createObjectURL(blob); // Generate a URL for the Blob
+    const blob = new Blob([data], { type: "audio/mpeg" }); // create a new Blob object
+    const url = window.URL.createObjectURL(blob); // generate a URL for the Blob
     return url;
   }
 
   //  handle the stop event from recording
   const handleStop = async (blobUrl: string) => {
-    setIsLoading(true); // Set loading true
+    setIsLoading(true); // et loading true
 
-    // Append the recorded message to the messages array
+    // append the recorded message to the messages array
     const myMessage = { sender: "me", blobUrl };
     const messagesArr = [...messages, myMessage];
 
@@ -28,24 +28,24 @@ const Controller = () => {
     fetch(blobUrl)
       .then((res) => res.blob())
       .then(async (blob) => {
-        // Construct FormData to send the file
+        // construct FormData to send the file
         const formData = new FormData();
         formData.append("file", blob, "myFile.wav");
 
-        //send FormData to the backend API endpoint
+        //send FormData to the backend API endpoint - post audio file
         await axios
           .post("http://localhost:8000/post-audio", formData, {
             headers: {
               "Content-Type": "audio/mpeg",
             },
-            responseType: "arraybuffer", //check that the response is treated as binary data
+            responseType: "arraybuffer", //check that the response is treated as binary data b - binary
           })
           .then((res: any) => {
             const blob = res.data;
             const audio = new Audio(); // create a new audio object
-            audio.src = createBlobURL(blob); // Set the source of the audio to the blob URL
+            audio.src = createBlobURL(blob); //set the source of the audio to the blob URL
 
-            //append the response from teacher to the messages array
+            //append the response from chatbot to the messages array
             const teacherMessage = { sender: "teacher", blobUrl: audio.src };
             messagesArr.push(teacherMessage);
             setMessages(messagesArr); // Update the state with the new messages
@@ -95,13 +95,13 @@ const Controller = () => {
               </div>
             </div>
           ))}
-          {/* Prompt when no messages are available */}
+          {/* prompt when no messages are available */}
           {messages.length === 0 && !isLoading && (
             <div className="text-center font-light italic mt-10">
               Start Speaking to Begin Your Lesson...
             </div>
           )}
-          {/* Loading indicator */}
+          {/* loading indicator */}
           {isLoading && (
             <div className="text-center font-light italic mt-10 animate-pulse">
               One Moment Please...
@@ -109,7 +109,7 @@ const Controller = () => {
           )}
         </div>
 
-        {/* Fixed recorder bar at the bottom of the screen */}
+        {/* fixed recorder bar at the bottom of the screen */}
         <div className="fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-indigo-500 to-purple-500">
           <div className="flex justify-center items-center w-full">
             <RecordMessage handleStop={handleStop} />

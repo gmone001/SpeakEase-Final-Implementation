@@ -1,26 +1,29 @@
 import json
-import random
+import random #for randomizing the learn instruction to make a more dynamic persona
 
-# Get recent messages
+# get recent messages
 def get_recent_messages():
-    # Define the file name and learn instructions
+    # define the file name where the messages are being stored 
     file_name = "stored_data.json"
+    #learn persona instructions
     learn_instruction = {
         "role": "system",
         "content": "You are interviewing the user for a job. Ask them about their experience and why they are interested in the job. Your name is Paula. The user is called Grace. Keep your answers to under 30 words"
     }
     
-    # Initialize messages
+    # initialize messages as an empty list
     messages = []
 
-    # Add a random element
+    # including a random element
     x = random.uniform(0, 1)
+    #if x is greater than 0.5, the response will include ... 
     if x > 0.5:
         learn_instruction["content"] += " Your Response will include some dry humor."
+        #if x is less than 0.5, the response will include ...
     else:
         learn_instruction["content"] += " Your Response will include a challenging question."
     
-    #append message to instruction
+    #append message to instruction to the messages list
     messages.append(learn_instruction)
 
     #get last messages
@@ -28,7 +31,7 @@ def get_recent_messages():
         with open(file_name) as user_data:
             data = json.load(user_data)
             
-            # append last 5 rows of data, so it doesnt collect everything
+            # append last 5 rows of data, so it doesnt collect everything over time
             if data:
                 if len(data) > 5:
                     for item in data:
@@ -44,13 +47,13 @@ def get_recent_messages():
 #return messages
     return messages
 
-# Store message
+#store messages in json file to keep track of the conversation and build on a persona
 def store_messages(request_message, response_message):
 
     #define the file name 
     file_name = "stored_data.json"
 
-    #get the messages exclude the first one because we are adding it on every time
+    #get the messages exclude the first one because it is set every time the user begins
     messages = get_recent_messages()[1:]
 
     #add messages to data
