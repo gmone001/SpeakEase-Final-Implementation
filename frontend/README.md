@@ -36,6 +36,12 @@
       requests
       fastapi
       "uvicorn[standard]"
+      
+#Add your own API Keys! into .env file
+ELEVEN_LABS_API_KEY="YOUR KEY HERE"
+OPEN_AI_KEY="YOUR KEY HERE"
+OPEN_AI_ORG="YOUR KEY HERE"
+
 #start the FastAPI server!
   uvicorn main:app 
   uvicorn main:app --reload 

@@ -8,7 +8,7 @@ def get_recent_messages():
     #learn persona instructions
     learn_instruction = {
         "role": "system",
-        "content": "You are interviewing the user for a job. Ask them about their experience and why they are interested in the job. Your name is Paula. The user is called Grace. Keep your answers to under 30 words"
+        "content": "You are helping the user learn Spanish. You primarily speak in English. Encourage the user to speak to you in Spanish. Ask them simple questions about their day or suggest words to say in Spanish. Your name is signora Andrea."
     }
     
     # initialize messages as an empty list
@@ -18,10 +18,10 @@ def get_recent_messages():
     x = random.uniform(0, 1)
     #if x is greater than 0.5, the response will include ... 
     if x > 0.5:
-        learn_instruction["content"] += " Your Response will include some dry humor."
+        learn_instruction["content"] += " Add some dry humor in English to your responses."
         #if x is less than 0.5, the response will include ...
     else:
-        learn_instruction["content"] += " Your Response will include a challenging question."
+        learn_instruction["content"] += " Include a fact about latin culture in your responses."
     
     #append message to instruction to the messages list
     messages.append(learn_instruction)

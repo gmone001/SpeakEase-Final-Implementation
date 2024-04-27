@@ -32,7 +32,7 @@ def get_chat_response(message_input):
     try:
         #get response from openai chat completion api 3.5 is the cheapest model
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-3.5-turbo-0125",
             messages=messages
         )
         #from chatopenai api refeerences, get the first choice and the message content

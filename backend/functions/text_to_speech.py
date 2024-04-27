@@ -16,7 +16,8 @@ def convert_text_to_speech(message):
     
     # define voice from 11 labs api websites list of voices, 
     #looking for a voice that speaks spanish and english with a good accent
-    voice_speakEase = "rrwYl7O3TdAbJcND9BqC" #take this from 11-labs voice library
+    #the one currently set is Argentina Women's voice
+    voice_speakEase = "9oPKasc15pfAbMr7N6Gs" #take this from 11-labs voice library 
     
     # Construct headers and endpoint, from 11-labs api references
     headers = {
