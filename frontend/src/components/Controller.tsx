@@ -46,8 +46,8 @@ const Controller = () => {
             audio.src = createBlobURL(blob); // Set the source of the audio to the blob URL
 
             //append the response from teacher to the messages array
-            const rachelMessage = { sender: "rachel", blobUrl: audio.src };
-            messagesArr.push(rachelMessage);
+            const teacherMessage = { sender: "teacher", blobUrl: audio.src };
+            messagesArr.push(teacherMessage);
             setMessages(messagesArr); // Update the state with the new messages
 
             //playing audio
@@ -74,13 +74,13 @@ const Controller = () => {
               key={index + audio.sender}
               className={
                 "flex flex-col " +
-                (audio.sender === "rachel" ? "flex items-end" : "")
+                (audio.sender === "teacher" ? "flex items-end" : "")
               }>
               {/* Display sender */}
               <div className="mt-4">
                 <p
                   className={
-                    audio.sender === "rachel"
+                    audio.sender === "teacher"
                       ? "text-right mr-2 italic text-green-500"
                       : "ml-2 italic text-blue-500"
                   }>
