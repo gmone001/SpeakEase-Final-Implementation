@@ -39,10 +39,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/docs")
-async def check_health():
-    return {"message": "healthy"}
-
 # Reset messages
 @app.get("/reset")
 async def reset_conversation():
