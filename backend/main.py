@@ -28,6 +28,8 @@ origins = [
     "http://localhost:4173",
     "http://localhost:4174",
     "http://localhost:3000",
+    "doc.gold.ac.uk/579",
+    "doc.gold.ac.uk/",
 ]
 
 # CORS middleware to allow requests from frontend
