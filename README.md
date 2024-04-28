@@ -46,12 +46,16 @@ start the FastAPI server!
   uvicorn main:app 
   uvicorn main:app --reload 
   yarn start
+
+  
 Usage!
-  Record: Use the record button in the UI to start and stop audio recordings.
 
-  Playback: Play the recorded audio directly in the browser.
+Record: Use the record button in the UI to start and stop audio recordings.
 
-  Transcribe: Submit audio to the backend where it is processed and transcribed using OpenAI.
+Playback: Play the recorded audio directly in the browser.
+
+Transcribe: Submit audio to the backend where it is processed and transcribed using OpenAI.
+
 Contact!
   Graciella Monetti 
   gmone001@gold.ac.uk
